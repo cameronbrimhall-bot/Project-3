@@ -85,7 +85,7 @@ def ComputeBucklingLoad(bars):
         E = bar.E
         # Use the weak axis (Iu) for the most conservative buckling calculation
         I = bar.Iu 
-        L = bar.Length()
+        L = bar.Length()*12
         K = 1.0
         
         # P_cr calculation
