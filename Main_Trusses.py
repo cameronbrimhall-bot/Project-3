@@ -63,14 +63,15 @@ def PlaneTrussStiffness( input_geometry):
     
     # Uncomment these for plotting
    # Plotting_Trusses.PlotStructureData(nodes, bars, "index")
-    Plotting_Trusses.PlotStructureData(nodes, bars, "axial")
-   # Plotting_Trusses.PlotStructureData(nodes, bars, "stress")
-    Plotting_Trusses.PlotStructureData(nodes, bars, "disp_in")
-   # Plotting_Trusses.PlotStructureData(nodes, bars, "buckling")
+    Plotting_Trusses.PlotStructureData(nodes, bars, "axial",)
+   # Plotting_Trusses.PlotStructureData(nodes, bars, "F_Reactions")
+    #Plotting_Trusses.PlotStructureData(nodes, bars, "disp_in")
+    Plotting_Trusses.PlotStructureData(nodes, bars, "buckling")
+   
     
     return [nodes,bars]
 
 
 # Run the plane truss function 
 # Modify the name of the file to operate on your truss of interest
-[nodes,bars]=PlaneTrussStiffness('Modified_Fan_Six_Panel_With_Wind_Simply_Supported.csv')
+[nodes,bars]=PlaneTrussStiffness('OPTIMIZED_Modified_Fan_Six_Panel_With_Wind.csv')
