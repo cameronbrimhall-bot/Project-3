@@ -46,12 +46,16 @@ def LoadSectionData(bar, section, section_file = ""):
     if section_file == "":
         split_section = section.split(";")
         bar.A = float(split_section[0])
-        if (len(split_section)>1):
-            bar.It = float(split_section[1])
+        bar.I = float(split_section[1])
     else:
         data_found = False
         data_line = None
         title_line = None
+        
+        input_section = section.strip().lower()
+        if len(input_section.split(":"))>1:
+            input_section = input_section.split(":")[1]
+        
         with open(section_file, 'r') as file:
             is_top = True
             for line in file:
@@ -61,7 +65,7 @@ def LoadSectionData(bar, section, section_file = ""):
                     continue
                 
                 split_line = line.strip().lower().split(",")
-                if split_line[1]==section.strip().lower().split(":")[1]:
+                if split_line[1]==input_section:
                     data_found = True
                     data_line = split_line
                     break

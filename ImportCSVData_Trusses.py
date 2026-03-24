@@ -38,16 +38,16 @@ def LoadData(input_geometry,section_file,material_file):
             # otherwise, split the line
             splitline = line.split();
             commaline = line.split(',')
-            if(commaline[0].lower().strip()=='nodes'):
+            if('nodes' in commaline[0].lower().strip().replace(" ","")):
                 barflag = False
                 nodeflag = True
                 continue
-            elif(commaline[0].lower().strip()=='beams' or commaline[0].lower().strip()=='bars'):
+            elif('beams' in commaline[0].lower().strip().replace(" ","") or 'bars' in commaline[0].lower().strip().replace(" ","")):
                 barflag = True
                 nodeflag = False
                 continue
             # Skip headers
-            elif(commaline[0].lower().strip()=='index'):
+            elif('index' in commaline[0].lower().strip().replace(" ","")):
                 continue
             
             # node is flagged
@@ -82,6 +82,10 @@ def LoadData(input_geometry,section_file,material_file):
                 smc.LoadSectionData(tempbeam, tempbeam.section_type, section_file)
                 smc.LoadMaterialData(tempbeam, tempbeam.material_type, material_file)        
                 
+                tempbeam.sdir = list(map(float,commaline[5].replace("[","").replace("]","").split()))
+                tempbeam.tdir = list(map(float,commaline[6].replace("[","").replace("]","").split()))
+                tempbeam.udir = list(map(float,commaline[7].replace("[","").replace("]","").split()))
+
                 bar_idx += 1
                 bardata.append(tempbeam)
                         

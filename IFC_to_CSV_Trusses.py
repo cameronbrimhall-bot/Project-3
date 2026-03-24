@@ -8,4 +8,4 @@ Created on Tue Nov  2 13:24:30 2021
 
 import IFC_Reader_v2 as IFC_Reader
 
-IFC_Reader.IFC_Reader('Gabled_Howe_6_Panel.ifc','Gabled_Howe_6_Panel.csv')
+IFC_Reader.IFC_Reader('Modified_Fan_Six_Panel.ifc','Modified_Fan_Six_Panel.csv')
