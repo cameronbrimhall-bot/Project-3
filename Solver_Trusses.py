@@ -36,18 +36,59 @@ def PostprocessReactions(K, d, F, n_unknowns, nodes):
 
 # determine internal member loads
 def ComputeMemberForces(bars):
-    # COMPLETE THIS FUNCTION
-    # Compute member forces for all bars using equation 14-23 
-    pass
+    """
+    Computes internal axial member loads for each bar using Equation 14-23.
+    Iterates through each member, extracts properties and node displacements,
+    and performs the matrix calculation to solve for the axial load.
+    """
+    for bar in bars:
+        # ii. Extract properties
+        E = bar.E
+        A = bar.A
+        L = bar.Length()
+        [lx, ly] = bar.LambdaTerms()
+        
+        # iii. Extract displacements from near (init) and far (end) nodes
+        # d = [u_near, v_near, u_far, v_far]
+        d = np.array([
+            bar.init_node.xdisp,
+            bar.init_node.ydisp,
+            bar.end_node.xdisp,
+            bar.end_node.ydisp
+        ])
+        
+        # iv. Perform calculation based on Equation 14-23:
+        # q = (AE/L) * [-lx, -ly, lx, ly] * {d}
+        transformation_vector = np.array([-lx, -ly, lx, ly])
+        axial_force = (A * E / L) * np.dot(transformation_vector, d)
+        
+        # v. Store the axial load
+        bar.axial_load = axial_force
+        pass
     
 # compute the normal stresses
 def ComputeNormalStresses(bars):
-    # COMPLETE THIS FUNCTION
-    # Compute normal stress for all bars
-    pass
+   for bar in bars:
+        if bar.A != 0:
+            bar.normal_stress = bar.axial_load / bar.A
+        else:
+            bar.normal_stress = 0.0
+        pass
 
 # compute the critical buckling load of a member
 def ComputeBucklingLoad(bars):
-    # COMPLETE THIS FUNCTION
-    # Compute critical buckling load for all bars
-    pass
+  """
+    Computes the critical buckling load P_cr = (pi^2 * E * I) / (KL)^2.
+    For trusses, K = 1.0.
+    """
+  for bar in bars:
+        E = bar.E
+        # Use the weak axis (Iu) for the most conservative buckling calculation
+        I = bar.Iu 
+        L = bar.Length()
+        K = 1.0
+        
+        # P_cr calculation
+        critical_load = (np.pi**2 * E * I) / (K * L)**2
+        bar.buckling_load = critical_load
+        pass
